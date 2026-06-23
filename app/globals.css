@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+/*
+  PROJECT INDUMATHI — Visual Language tokens.
+  Nocturnal, warm, editorial. Ink + paper + low light, with her colors rationed.
+*/
+@theme {
+  /* The room (primary) */
+  --color-ink: #14100e;          /* warm near-black canvas */
+  --color-ink-soft: #1d1714;     /* lifted ink for layered dark */
+  --color-paper: #f3ead9;        /* warm bone, never clinical white */
+  --color-paper-dim: #cdbfa8;    /* receded paper for secondary text */
+
+  /* The warmth (secondary) */
+  --color-amber: #d9a066;        /* candlelight, presence */
+  --color-amber-soft: #b9824d;
+  --color-dusk: #6f7d92;         /* faded ink-blue, longing */
+
+  /* Her colors (accent — rationed, appear at/after midnight) */
+  --color-bloom: #c98aa6;        /* dusty rose-violet, flowers */
+  --color-blueberry: #6d6a9c;
+  --color-strawberry: #c87a86;
+  --color-cookiedough: #d8c7a3;
+
+  /* Type */
+  --font-serif: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Motion (durations, ms expressed as tokens for reference in CSS) */
+  --ease-arrive: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-recede: cubic-bezier(0.4, 0, 1, 1);
+  --ease-gentle: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior: none;
+}
+
+body {
+  margin: 0;
+  /* Honor mobile safe areas (notch / home indicator). */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* Disable text selection during the cinematic flow — it is read, not copied. */
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/*
+  Film grain / paper tooth. Pure CSS via an inline SVG turbulence — no binary asset.
+  Sits above the canvas, below content. Static (never animated per-frame).
+*/
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* A low warm vignette to make the frame feel "held". */
+.vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  background: radial-gradient(
+    120% 90% at 50% 45%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+/* Reading measure for editorial lines. */
+.measure {
+  max-width: 22rem;
+}
+
+@media (min-width: 640px) {
+  .measure {
+    max-width: 26rem;
+  }
+}
+
+/* Respect reduced motion globally as a safety net. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.08s !important;
+  }
+}
