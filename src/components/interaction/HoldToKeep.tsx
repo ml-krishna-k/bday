@@ -14,9 +14,9 @@ interface HoldToKeepProps {
 }
 
 /**
- * Press-and-hold the most sacred lines. Holding intensifies the content (light gathers,
- * the rest recedes); a haptic + soft tone mark the moment it "takes". Tap-fallback after a
- * short delay so it never hard-gates access.
+ * Press-and-hold the most sacred lines. The ENTIRE screen is the press surface; the pointer
+ * is captured so drift/scroll can't cancel it. Holding intensifies the content (light gathers);
+ * a haptic + soft tone mark the moment it "takes".
  */
 export function HoldToKeep({
   children,
@@ -34,26 +34,30 @@ export function HoldToKeep({
   });
 
   return (
-    <div className="flex min-h-[100dvh] w-full flex-col items-center justify-center px-6">
+    <div
+      {...handlers}
+      role="button"
+      aria-label={label}
+      className="relative flex min-h-[100dvh] w-full cursor-pointer select-none flex-col items-center justify-center px-6"
+      style={{ touchAction: "none", WebkitTapHighlightColor: "transparent" }}
+    >
       <motion.div
-        {...handlers}
-        className="flex flex-col items-center justify-center"
-        style={{ touchAction: "none" }}
+        className="pointer-events-none flex flex-col items-center justify-center"
         animate={{
           scale: 1 + progress * 0.05,
           opacity: 0.78 + progress * 0.22,
         }}
-        transition={{ duration: 0.1, ease: "linear" }}
+        transition={{ duration: 0.12, ease: "linear" }}
       >
         {children}
       </motion.div>
 
-      <div className="absolute bottom-[max(2.5rem,env(safe-area-inset-bottom))] flex flex-col items-center gap-3">
+      <div className="pointer-events-none absolute bottom-[max(2.5rem,env(safe-area-inset-bottom))] flex flex-col items-center gap-3">
         <div className="h-[2px] w-28 overflow-hidden rounded-full bg-paper/15">
           <motion.div
             className="h-full bg-amber"
-            style={{ width: `${progress * 100}%` }}
-            transition={{ duration: 0.1, ease: "linear" }}
+            animate={{ width: `${progress * 100}%` }}
+            transition={{ duration: 0.12, ease: "linear" }}
           />
         </div>
         <motion.span
