@@ -3,6 +3,7 @@ import "./globals.css";
 import { ExperienceProvider } from "@/providers/ExperienceProvider";
 import { ReducedMotionGate } from "@/components/system/ReducedMotionGate";
 import { CanvasShell } from "@/components/canvas/CanvasShell";
+import { MusicPlayer } from "@/components/media/MusicPlayer";
 
 /*
   Typography: defaults to an editorial system serif/sans stack so the app builds and runs
@@ -40,6 +41,7 @@ export default function RootLayout({
           <ReducedMotionGate>
             <CanvasShell>{children}</CanvasShell>
           </ReducedMotionGate>
+          <MusicPlayer />
         </ExperienceProvider>
       </body>
     </html>

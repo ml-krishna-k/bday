@@ -139,8 +139,8 @@ export const NC5: ContentChapter = {
     {
       id: "nc5-5",
       lines: [{ text: "So here's what I never managed to say —", italic: true }],
-      interaction: "none",
-      dwellMs: 2000,
+      interaction: "tap",
+      dwellMs: 2600,
       mood: "still",
     },
   ],
