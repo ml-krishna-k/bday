@@ -1,22 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import { ExperienceProvider } from "@/providers/ExperienceProvider";
 import { ReducedMotionGate } from "@/components/system/ReducedMotionGate";
 import { CanvasShell } from "@/components/canvas/CanvasShell";
 
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-fraunces",
-  display: "swap",
-  style: ["normal", "italic"],
-});
+/*
+  Typography: defaults to an editorial system serif/sans stack so the app builds and runs
+  with zero network access. To use the intended Fraunces + Inter on a connected machine,
+  re-enable next/font/google here and add the variables to <html>:
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
+    import { Fraunces, Inter } from "next/font/google";
+    const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces", display: "swap", style: ["normal","italic"] });
+    const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+    // then: <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
+*/
 
 export const metadata: Metadata = {
   title: "for you",
@@ -37,7 +34,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
+    <html lang="en">
       <body>
         <ExperienceProvider>
           <ReducedMotionGate>

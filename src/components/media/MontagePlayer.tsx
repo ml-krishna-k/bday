@@ -56,19 +56,36 @@ export function MontagePlayer({ shots, onEnded }: MontagePlayerProps) {
             exit="exit"
             className="relative flex flex-col items-center text-center"
           >
-            <div
+            <motion.div
               aria-hidden
               className="pointer-events-none absolute -inset-24 -z-10"
               style={{
                 background: `radial-gradient(60% 60% at 50% 50%, ${glow} 0%, transparent 70%)`,
               }}
+              animate={reduced ? undefined : { scale: [1, 1.15], opacity: [0.85, 1] }}
+              transition={{ duration: shot.durationMs / 1000, ease: "easeOut" }}
             />
-            <p className="measure font-serif text-[1.5rem] italic leading-snug text-paper sm:text-[1.8rem]">
+            <motion.p
+              animate={reduced ? undefined : { y: [8, -8] }}
+              transition={{ duration: shot.durationMs / 1000, ease: "linear" }}
+              className="measure font-serif text-[1.5rem] italic leading-snug text-paper sm:text-[1.8rem]"
+            >
               {shot.caption}
-            </p>
+            </motion.p>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* faint reel progress */}
+      <div className="pointer-events-none absolute bottom-[max(2rem,env(safe-area-inset-bottom))] left-1/2 flex -translate-x-1/2 gap-1.5">
+        {shots.map((s, idx) => (
+          <span
+            key={s.id}
+            className="block h-1 w-1 rounded-full bg-paper transition-opacity duration-700"
+            style={{ opacity: idx <= Math.min(i, shots.length - 1) ? 0.5 : 0.12 }}
+          />
+        ))}
+      </div>
     </div>
   );
 }

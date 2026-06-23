@@ -1,7 +1,7 @@
-# Project Indumathi
+# Project Indumathi — Version 1
 
-A private, time-released birthday experience. Handcrafted, cinematic, deeply personal.
-Built to deliver one feeling: *"...he noticed all of that."*
+A private birthday experience. Handcrafted, cinematic, deeply personal.
+One continuous story you can open and complete **immediately** — no clock, no waiting.
 
 ## Stack
 
@@ -11,52 +11,51 @@ Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · Framer Motion · Zus
 
 ```bash
 npm install
-cp .env.local.example .env.local   # then edit
+cp .env.local.example .env.local   # then edit NEXT_PUBLIC_NAME
 npm run dev
 ```
 
-Open http://localhost:3000.
+Open http://localhost:3000 — it begins right away.
 
-## Configure the gift
+## The flow (instant, no time gating)
 
-Edit `.env.local`:
+Opening → Threshold → five chapters
+(The Girl I Never Spoke To · The Bus · The Things You Think I Don't Notice ·
+The Things I Never Explain Properly · The Future) → the bloom (a narrative turn) →
+The Truth (the confession) → the Montage → the final message.
 
-- `NEXT_PUBLIC_BIRTHDAY` — the birthday as `YYYY-MM-DD`. The experience's midnight is 00:00 of this date.
-- `NEXT_PUBLIC_NAME` — her name (used at the climax).
-- `CONDUCTOR_PASSCODE` — passcode for the hidden `/conductor` panel.
-- `NEXT_PUBLIC_ALLOW_DEBUG` — `true` enables URL time-travel for previewing.
+Tap anywhere to advance. Press-and-hold the bold lines. Progress is saved locally,
+so a return visit lands gently on the ending (with a quiet "read it again").
 
-## How it flows (real time)
-
-- **11:55 PM** the night before → the Summons appears.
-- **12:00 AM** → the midnight crossing + the confession + the montage, then the landing.
-- **8 AM → 4 PM** → one chapter unlocks each hour (the daytime memory book).
-- **4 PM** → the Arrival foreshadows the real-world gift; use `/conductor` to sync it to the moment you're actually at the door.
-- Any later visit → the Keepsake (the full book, hers forever).
-
-## Previewing without waiting for midnight
+## Preview a specific beat
 
 With `NEXT_PUBLIC_ALLOW_DEBUG=true`:
 
-- `/?phase=SUMMONED` — jump to the night flow.
-- `/?phase=CROSSING` — the midnight bloom.
-- `/?phase=CONFESSION` — the climax + montage.
-- `/?phase=LANDED` — the landing.
-- `/?phase=DAYTIME` — the daytime hub.
-- `/?phase=KEEPSAKE` — the memory book.
-- `/?simNow=2026-07-15T10:30:00` — simulate a specific moment (drives real unlock logic).
+- `/?phase=STORY` — from the opening
+- `/?phase=CROSSING` — the bloom
+- `/?phase=CONFESSION` — the climax + montage
+- `/?phase=LANDED` — the ending
 
-To experience the genuine sequence, set the real birthday and clear the debug flag.
+## Configure
 
-## Architecture
+`.env.local`:
 
-- `src/engine/` — pure, testable logic: time math, unlock resolver, state machines, scheduler.
-- `src/content/` — the locked story as data (screens, chapters, montage).
-- `src/stores/` — Zustand state (time, experience, unlock, progress, settings, audio, mood).
-- `src/hooks/` — time sync, midnight trigger, unlock engine, gestures, audio, etc.
+- `NEXT_PUBLIC_NAME` — her name (used at the climax).
+- `NEXT_PUBLIC_ALLOW_DEBUG` — enable the `?phase=` preview override.
+
+## Deploy to Vercel
+
+Push to a repo → import in Vercel → set `NEXT_PUBLIC_NAME` → deploy. No other config needed.
+
+## Architecture (V1)
+
+- `src/engine/experienceMachine.ts` — pure phase transitions (STORY → CROSSING → CONFESSION → LANDED).
+- `src/content/` — the locked story as data (opening/threshold/crossing/landing + chapters + montage).
+- `src/stores/` — Zustand state (experience, progress [persisted], settings, audio, mood).
+- `src/hooks/` — gestures (tap/hold/linger), reduced-motion, haptics, audio.
 - `src/components/` — the design-system primitives.
 - `src/experience/` — phase orchestration + the single immersive surface.
-- `app/` — routes (the surface, keepsake, conductor) and edge API routes.
+- `app/` — the surface route and an edge health route.
 
-Audio is asset-free (a warm Web Audio drone that follows the emotional zone). The montage is
-text-led and asset-free; supply real media later via the montage manifest if desired.
+Audio is asset-free (a warm Web Audio drone that follows the emotional zone). The montage
+is text-led and asset-free; supply real media later via the montage manifest if desired.

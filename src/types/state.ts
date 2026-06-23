@@ -1,35 +1,17 @@
 import type { ChapterId } from "./content";
 
-/** The global experience phases (the experience state machine). */
+/** The global experience phases — Version 1: a continuous private story, no clock. */
 export type ExperiencePhase =
-  | "DORMANT" // before the summons window; protect the surprise
-  | "SUMMONED" // night flow: SUM -> THR -> NC1..5 -> HELD
-  | "CROSSING" // the midnight bloom (MID)
+  | "STORY" // the opening + the five chapters (SUM -> THR -> NC1..5)
+  | "CROSSING" // the emotional turn into the confession (narrative bloom)
   | "CONFESSION" // NC7 -> Montage
-  | "LANDED" // the post-midnight landing (LND), then sleep
-  | "DAYTIME" // 8AM -> 4PM hub + spokes
-  | "ARRIVAL" // the 4PM real-world arrival (DAY-16)
-  | "KEEPSAKE"; // return-visitor memory book
+  | "LANDED"; // the final ending (LND)
 
 export type ExperienceEvent =
-  | "OPEN"
-  | "BEGIN_NIGHT"
-  | "MIDNIGHT_REACHED"
+  | "BEGIN_CROSSING"
   | "CROSSING_DONE"
   | "MONTAGE_DONE"
-  | "ENTER_DAYTIME"
-  | "ARRIVAL_FIRED"
-  | "ENTER_KEEPSAKE";
-
-/** Per-chapter unlock lifecycle (the unlock state machine). */
-export type ChapterUnlockState =
-  | "LOCKED"
-  | "AVAILABLE"
-  | "OPENED"
-  | "COMPLETED"
-  | "REVISITABLE";
-
-export type UnlockMap = Record<ChapterId, ChapterUnlockState>;
+  | "REPLAY";
 
 export interface ProgressRecord {
   frameIndexByChapter: Partial<Record<ChapterId, number>>;
@@ -38,8 +20,6 @@ export interface ProgressRecord {
   discovered: string[];
   /** Highest phase rank ever reached — used to route return visitors. */
   furthestPhaseRank: number;
-  /** Whether the missed-midnight catch-up has played. */
-  catchUpDone: boolean;
 }
 
 export interface Settings {

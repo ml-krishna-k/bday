@@ -4,15 +4,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useExperienceStore } from "@/stores/experienceStore";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { frameSwapVariants } from "@/motion/variants";
-import { DormantPhase } from "./phases/DormantPhase";
 import { NightFlow } from "./phases/NightFlow";
 import { CrossingPhase } from "./phases/CrossingPhase";
 import { ConfessionPhase } from "./phases/ConfessionPhase";
 import { LandingPhase } from "./phases/LandingPhase";
-import { DaytimePhase } from "./phases/DaytimePhase";
-import { ArrivalPhase } from "./phases/ArrivalPhase";
-import { KeepsakePhase } from "./phases/KeepsakePhase";
-import { HeldBreath } from "@/components/feedback/HeldBreath";
 
 /** Renders the active phase from experience state. Phase swaps crossfade — never navigate. */
 export function PhaseRouter() {
@@ -20,16 +15,13 @@ export function PhaseRouter() {
   const booted = useExperienceStore((s) => s.booted);
   const reduced = useReducedMotion();
 
-  // Hold a calm breath until boot reconciliation (time sync + hydration) completes.
-  if (!booted) {
-    return <HeldBreath lines={["", ""]} />;
-  }
+  // Boot is instant (just persisted-progress hydration). Show only the warm dark
+  // canvas underneath until ready — no spinner, no waiting copy.
+  if (!booted) return null;
 
   const render = () => {
     switch (phase) {
-      case "DORMANT":
-        return <DormantPhase />;
-      case "SUMMONED":
+      case "STORY":
         return <NightFlow />;
       case "CROSSING":
         return <CrossingPhase />;
@@ -37,14 +29,8 @@ export function PhaseRouter() {
         return <ConfessionPhase />;
       case "LANDED":
         return <LandingPhase />;
-      case "DAYTIME":
-        return <DaytimePhase />;
-      case "ARRIVAL":
-        return <ArrivalPhase />;
-      case "KEEPSAKE":
-        return <KeepsakePhase />;
       default:
-        return <DormantPhase />;
+        return <NightFlow />;
     }
   };
 

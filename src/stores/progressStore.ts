@@ -16,7 +16,6 @@ interface ProgressStore extends ProgressRecord {
   hasDiscovered: (key: string) => boolean;
   setNightStep: (step: number) => void;
   recordPhase: (phase: ExperiencePhase) => void;
-  setCatchUpDone: (done: boolean) => void;
   reset: () => void;
 }
 
@@ -26,7 +25,6 @@ const INITIAL: ProgressRecord = {
   completed: [],
   discovered: [],
   furthestPhaseRank: 0,
-  catchUpDone: false,
 };
 
 export const useProgressStore = create<ProgressStore>()(
@@ -69,8 +67,6 @@ export const useProgressStore = create<ProgressStore>()(
           furthestPhaseRank: Math.max(s.furthestPhaseRank, PHASE_RANK[phase]),
         })),
 
-      setCatchUpDone: (done) => set({ catchUpDone: done }),
-
       reset: () => set({ ...INITIAL }),
     }),
     {
@@ -83,7 +79,6 @@ export const useProgressStore = create<ProgressStore>()(
         completed: s.completed,
         discovered: s.discovered,
         furthestPhaseRank: s.furthestPhaseRank,
-        catchUpDone: s.catchUpDone,
       }),
     }
   )

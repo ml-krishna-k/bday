@@ -8,18 +8,14 @@ import { useProgressStore } from "./progressStore";
 interface ExperienceStore {
   phase: ExperiencePhase;
   booted: boolean;
-  /** True when she opened too late and we replayed the crossing as catch-up. */
-  missedMidnight: boolean;
   transition: (event: ExperienceEvent) => void;
   setPhase: (phase: ExperiencePhase) => void;
   setBooted: (v: boolean) => void;
-  setMissedMidnight: (v: boolean) => void;
 }
 
 export const useExperienceStore = create<ExperienceStore>()((set, get) => ({
-  phase: "DORMANT",
+  phase: "STORY",
   booted: false,
-  missedMidnight: false,
 
   transition: (event) => {
     const target = nextPhase(get().phase, event);
@@ -35,5 +31,4 @@ export const useExperienceStore = create<ExperienceStore>()((set, get) => ({
   },
 
   setBooted: (v) => set({ booted: v }),
-  setMissedMidnight: (v) => set({ missedMidnight: v }),
 }));

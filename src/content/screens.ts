@@ -1,17 +1,17 @@
 import type { ContentFrame } from "@/types";
 import { HER_NAME } from "@/lib/constants";
 
-/** SUM — The Summons (11:55 PM). Turn a notification into a ritual. */
+/** SUM — The opening. A quiet invitation into the story. */
 export const SUMMONS_FRAMES: ContentFrame[] = [
   {
     id: "sum-1",
-    lines: [{ text: "Don't sleep yet." }],
+    lines: [{ text: "Before you do anything else —" }],
     interaction: "tap",
     mood: "night",
   },
   {
     id: "sum-2",
-    lines: [{ text: "Five minutes.", italic: true }, { text: "Stay with me." }],
+    lines: [{ text: "I made you something.", italic: true }, { text: "Read it slowly." }],
     interaction: "tap",
     mood: "night",
   },
@@ -38,42 +38,32 @@ export const THRESHOLD_FRAMES: ContentFrame[] = [
   },
 ];
 
-/** HELD — The Held Breath. The designed waiting state before midnight. */
-export const HELD_FRAMES: ContentFrame[] = [
+/** CROSSING — the emotional turn into the confession (a narrative bloom, not a clock). */
+export const CROSSING_FRAMES: ContentFrame[] = [
   {
-    id: "held-1",
-    lines: [{ text: "almost.", italic: true }, { text: "stay with me." }],
-    interaction: "none",
-    mood: "still",
-  },
-];
-
-/** MID — Midnight crossing copy (rendered with the bloom). */
-export const MIDNIGHT_FRAMES: ContentFrame[] = [
-  {
-    id: "mid-name",
+    id: "cross-name",
     lines: [{ text: HER_NAME, emphasis: true }],
     interaction: "auto",
     autoAdvanceMs: 4200,
     mood: "bloom",
   },
   {
-    id: "mid-yours",
-    lines: [{ text: "It's yours now. The whole day." }],
+    id: "cross-yours",
+    lines: [{ text: "All of this is yours." }],
     interaction: "auto",
     autoAdvanceMs: 4200,
     mood: "bloom",
   },
   {
-    id: "mid-hb",
+    id: "cross-hb",
     lines: [{ text: "happy birthday", italic: true }],
     interaction: "auto",
     autoAdvanceMs: 4600,
     mood: "bloom",
   },
   {
-    id: "mid-bridge",
-    lines: [{ text: "I've been waiting for midnight to finish a sentence." }],
+    id: "cross-bridge",
+    lines: [{ text: "There's a sentence I never finished. Let me finish it now." }],
     interaction: "auto",
     autoAdvanceMs: 4200,
     mood: "warm",
@@ -116,12 +106,12 @@ export const LANDING_FRAMES: ContentFrame[] = [
     dwellMs: 2600,
     mood: "warm",
     discover: {
-      lines: [{ text: "(there's more. all day long.)", italic: true }],
+      lines: [{ text: "(stay as long as you like.)", italic: true }],
     },
   },
   {
     id: "lnd-5",
-    lines: [{ text: `Goodnight, ${HER_NAME}. Happy birthday.`, italic: true }],
+    lines: [{ text: `Happy birthday, ${HER_NAME}.`, italic: true }],
     interaction: "none",
     mood: "still",
   },
